@@ -1,44 +1,71 @@
 # Text to Speech using AWS Polly 
-This project is met to be an assistant to people (like me) with reading disorders. 
+This project is meant to be an assistant to people (like me) with reading disorders. 
 
-## My goals
-The program need to be fast and assessable, I'm planing to use the clipboard.
+It uses AWS Polly api for neural (only supported in some regions).  
 
 ```mermaid
 flowchart LR
     
     S[Start]
-    E[End]
-    RC[Read form clipboard]
-    HASH[Hash Content]
-    CHECK[Check if string audio exist]
+    RC[Get text]
+    HASH[Hash text]
+    CHECK[Check if text audio exist]
     IF{If exists}
     CALL[Call polly api]
     SAVE[Save]
-    PLAY[Play audio]
+    PLAY[Return path to file]
 
     S --- RC --- HASH 
     HASH --- CHECK --- IF
-    IF --> |no| CALL --- SAVE --> PLAY
     IF --> |yes| PLAY
-    PLAY --> E
+    IF --> |no| CALL --- SAVE --> PLAY
 
 ```
 
-```mermaid
-sequenceDiagram
-    actor User
-    participant Clip_Board
-    participant TTS_Polly
-    participant AWS_Polly
+```
+usage: main.py [-h] [-t TEXT] [-p PROFILE]
 
-    User ->> Clip_Board: Copies Text
-    User ->> TTS_Polly: Starts program
-    activate TTS_Polly 
-    TTS_Polly ->> Clip_Board: Reads 
-    TTS_Polly ->> AWS_Polly: Request
-    AWS_Polly ->> TTS_Polly: Responds
-    TTS_Polly ->> User: play Audio file
-    deactivate TTS_Polly 
+Text to speech, feed in text get audio file out
+
+options:
+  -h, --help            show this help message and exit
+
+Mode:
+  -t TEXT, --text TEXT  The value to be processed.
+  -p PROFILE, --profile PROFILE
+                        profile name in your ~/.aws/credentials. the default value is 'default'
+```
+
+## Use cases
+Read from clip board
+```
+xclip -selection clipboard -o | ./tty-polly | xargs cvlc --play-and-exit
+```
+
+Read from text file 
+```
+cat file | ./tty-polly | xargs cvlc --play-and-exit
+```
+
+user args 
+```
+./tty-polly -t "some text file" | xargs cvlc --play-and-exit
+```
+
+All data is stored in  
 
 ```
+$HOME/.local/share/tty-polly
+```
+
+
+## Setup 
+
+1. Setup your aws credentials, don't forget to include region. [ref](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html)
+2. install `./requirements.txt` 
+
+```
+    pip install -r ./requirements.txt
+```
+
+> TODO: create AUR PKGBUILD
