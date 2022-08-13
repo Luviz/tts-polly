@@ -8,12 +8,13 @@ class PollyClient:
         self._session = Session(profile_name=profile_name)
         self.Client = self._session.client("polly")
 
-    def synthesize_and_store(self, value, path, voiceId="Joanna", outputFormat="mp3"):
+    def synthesize_and_store(self, value, path, voiceId="Joanna", engine="neural", outputFormat="mp3"):
         try:
             res = self.Client.synthesize_speech(
                 Text=value,
                 VoiceId=voiceId,
                 OutputFormat=outputFormat,
+                Engine=engine
             )
             if "AudioStream" in res:
                 write_bytes_file(res["AudioStream"], path)
