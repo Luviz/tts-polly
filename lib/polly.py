@@ -1,6 +1,6 @@
 from boto3 import Session
 from botocore.exceptions import BotoCoreError, ClientError
-from lib import write_bytes_file
+from lib.utils import write_bytes_file
 
 
 class PollyClient:

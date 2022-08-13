@@ -1,8 +1,8 @@
 import sys
+import pathlib
 from os import getenv, path
 
-import pathlib
-from lib import PollyClient, ArgumentParser, write_text_file, hash_value
+from lib import ArgumentParser, PollyClient, write_text_file, hash_value
 
 parser = ArgumentParser()
 args = parser.parse_args()
@@ -36,10 +36,10 @@ def main():
         print("Could not find any text to process!")
         sys.exit(-1)
 
-    hash_value = hash_value(text)
+    hash = hash_value(text)
 
-    text_path = f"{text_dir}/{hash_value}.txt"
-    audio_path = f"{audio_dir}/{hash_value}.mp3"
+    text_path = f"{text_dir}/{hash}.txt"
+    audio_path = f"{audio_dir}/{hash}.mp3"
 
     text_exists = path.exists(text_path)
     audio_exists = path.exists(audio_path)
