@@ -39,23 +39,23 @@ Mode:
 ## Use cases
 Read from clip board
 ```
-xclip -selection clipboard -o | ./tty-polly | xargs cvlc --play-and-exit
+xclip -selection clipboard -o | ./tts-polly | xargs cvlc --play-and-exit
 ```
 
 Read from text file 
 ```
-cat file | ./tty-polly | xargs cvlc --play-and-exit
+cat file | ./tts-polly | xargs cvlc --play-and-exit
 ```
 
 user args 
 ```
-./tty-polly -t "some text file" | xargs cvlc --play-and-exit
+./tts-polly -t "some text file" | xargs cvlc --play-and-exit
 ```
 
 All data is stored in  
 
 ```
-$HOME/.local/share/tty-polly
+$HOME/.local/share/tts-polly
 ```
 
 
